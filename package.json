@@ -1,0 +1,41 @@
+{
+  "name": "graphql-an-introduction-demo",
+  "version": "1.0.0",
+  "description": "A demo for my graphql-introduction-demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint src",
+    "prettier": "prettier --write \"**/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nslandolt/graphql-an-introduction-demo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nslandolt/graphql-an-introduction-demo/issues"
+  },
+  "homepage": "https://github.com/nslandolt/graphql-an-introduction-demo#readme",
+  "dependencies": {
+    "apollo-server": "^2.18.2",
+    "apollo-server-express": "^2.18.2",
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "graphql-playground-middleware-express": "^1.7.21",
+    "graphql-subscriptions": "^1.1.0",
+    "subscriptions-transport-ws": "^0.9.18"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^2.1.2"
+  }
+}
