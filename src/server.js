@@ -7,7 +7,7 @@ const { query } = require('./query')
 const { mutation } = require('./mutation')
 const { subscription } = require('./subscription')
 
-const Server = (context = {}) => {
+const Server = (port, context = {}) => {
   const app = express()
 
   app.get('/alive', (_req, res) => {
@@ -38,9 +38,9 @@ const Server = (context = {}) => {
 
   server.installSubscriptionHandlers(httpServer)
 
-  console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`)
+  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
   console.log(
-    `🚀 Subscriptions ready at ws://localhost:3000${server.subscriptionsPath}`,
+    `🚀 Subscriptions ready at ws://localhost:${port}${server.subscriptionsPath}`,
   )
   return httpServer
 }

@@ -7,7 +7,7 @@ const { Server } = require('./src/server')
 ;(async () => {
   const pubsub = new PubSub()
 
-  Server({ pubsub }).listen(PORT, (err) => {
+  Server(PORT, { pubsub }).listen(PORT, (err) => {
     if (err) throw err
   })
 })()
