@@ -11,7 +11,7 @@ const mutation = new GraphQLObjectType({
   fields: () => ({
     whatsYourName: {
       type: GraphQLString,
-      description: '',
+      description: 'A simple mutation to demo its functionality.',
       args: {
         name: {
           type: new GraphQLNonNull(GraphQLString),
