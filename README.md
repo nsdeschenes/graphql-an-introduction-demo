@@ -124,7 +124,13 @@ in this example they were not needed.) So since we define the schema in GraphQL 
 as well. Arguments follow the same pattern as defining `mutations` or `queries` we have to provide the type
 and a description, you can also see `GraphQLNonNull` being used this ensures that the argument cannot be left
 empty or provided a null value. In the mutation resolver here you can see that it is a bit more complex than
-the one being used in the [query](#query-code). 
+the one being used in the [query](#query-code), we are accessing the various objects that are passed to the
+resolver. The important things that we are looking for is the second and third argument, the second argument
+represents the arguments object and contains all the information passed in by the user whereas the third
+argument represents the context that is generated in the [server](#server-code). We can destruct this objects
+and pull out the individual variables thanks to the power of JavaScript. You will also notice the `pubsub`
+that we are pulling out of the context, we will use this later on in the subscription, and finally you will
+see that we return a template string (which matches our return type) containing a message to the requesting user.
 
 ### Subscription Code
 ```js
