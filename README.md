@@ -177,10 +177,6 @@ const { subscription } = require('./subscription')
 const Server = (port, context = {}) => {
   const app = express()
 
-  /*
-    ...
-  */
-
   const server = new ApolloServer({
     schema: new GraphQLSchema({
       query: query,
