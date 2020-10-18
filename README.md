@@ -13,7 +13,7 @@ This package is supplementary to my GraphQL an Introduction presentation which c
   - [Server Code](#server-code)
 
 ## Getting Started
-- [Back to top](#graphql-an-introduction-demo)
+[Back to top](#graphql-an-introduction-demo)
 ### Installing Dependencies
 ```shell
 npm install
@@ -23,13 +23,12 @@ npm install
 ```shell
 npm run start
 ```
-Once the server is running it will log the url's that you can
-visit to try out GraphQL.
-- - -
-## Running Queries/Mutations/Subscriptions
+Once the server is running it will log the url's that 
+you can visit to try out GraphQL.
+
 ### Run a Query
-There is one demo query included in the server, to run the query
-paste the following into the playground.
+There is one demo query included in the server, to run 
+the query paste the following into the playground.
 ```graphql
 query {
   hello
@@ -61,7 +60,7 @@ mutation {
 ```
 - - -
 ## Code Explanation
-- [Back to top](#graphql-an-introduction-demo)
+[Back to top](#graphql-an-introduction-demo)
 ### Query Code
 ```js
 // src/query.js
@@ -79,6 +78,15 @@ const query = new GraphQLObjectType({
   }),
 })
 ```
+In [query.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/query.js)
+we create the base or root query. A root type is required for any subsequent field (i.e. queries).
+We start off by declaring a new `GraphQLObjectType` and start filling out the various fields such as
+`name`, and `description`. When we reach the `fields` field, we create an anonymous function that returns
+the different queries. In this example it is not required however later on as you expand your schema, you 
+may have types that include other types, but those children types then return the original type so it will
+cause issues when generating the schema, the anonymous function solves this issue. So now we start creating
+the fields that can be queried, to keep it simple there is only one field `hello` that when queried will
+resolve and return `World!` when executed.
 
 ### Mutation Code
 ```js
@@ -99,7 +107,7 @@ const mutation = new GraphQLObjectType({
           type: GraphQLID,
           description: 'The ID used for sending name through subscription.',
         },
-      },
+      },            /* source    args          context */
       resolve: async (_source, { id, name }, { pubsub }) => {
         pubsub.publish(id, { name })
         return `Your name is: ${name}!`
@@ -108,6 +116,15 @@ const mutation = new GraphQLObjectType({
   }),
 })
 ```
+In [mutation.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/mutation.js)
+again like the query above we have to create the root mutation. We follow the same pattern as the query
+above with the `name`, `description`, and `fields`. Here however we also the `args` field to the mutation
+this field allows us to accept arguments from the user. (Note: args are also available with queries however
+in this example they were not needed.) So since we define the schema in GraphQL we must define the arguments
+as well. Arguments follow the same pattern as defining `mutations` or `queries` we have to provide the type
+and a description, you can also see `GraphQLNonNull` being used this ensures that the argument cannot be left
+empty or provided a null value. In the mutation resolver here you can see that it is a bit more complex than
+the one being used in the [query](#query-code). 
 
 ### Subscription Code
 ```js
@@ -133,6 +150,8 @@ const subscription = new GraphQLObjectType({
   }),
 })
 ```
+Text Here
+
 ### Server Code
 ```js
 const { query } = require('./query')
@@ -177,3 +196,4 @@ const Server = (port, context = {}) => {
   return httpServer
 }
 ```
+Text Here
