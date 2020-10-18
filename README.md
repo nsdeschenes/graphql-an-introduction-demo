@@ -129,8 +129,8 @@ resolver. The important things that we are looking for is the second and third a
 represents the arguments object and contains all the information passed in by the user whereas the third
 argument represents the context that is generated in the [server](#server-code). We can destruct this objects
 and pull out the individual variables thanks to the power of JavaScript. You will also notice the `pubsub`
-that we are pulling out of the context, we will use this later on in the subscription, and finally you will
-see that we return a template string (which matches our return type) containing a message to the requesting user.
+that we are pulling out of the context which we will use this later on in the subscription, and finally you will
+see that we return a template string (matching the return type) containing a message to the requesting user.
 
 ### Subscription Code
 ```js
@@ -150,13 +150,22 @@ const subscription = new GraphQLObjectType({
       },
       resolve: async ({ name }) => {
         return name
-      },
-      subscribe: (_, { id }, { pubsub }) => pubsub.asyncIterator(id),
+      },        /* source    args    context */
+      subscribe: (_source, { id }, { pubsub }) => pubsub.asyncIterator(id),
     },
   }),
 })
 ```
-Text Here
+In [subscription.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/subscription.js)
+we once again follow the same pattern of declaring the base object, the sub fields etc. However there is one key
+difference which lies in the last field `subscribe`, this is a special field reserved for subscriptions. Just 
+like a resolver we can access the same objects and use them inside the anonymous function. For subscriptions 
+we typically use a PubSub engine specifically designed for a certain system, you can see my demo using redis
+[here](https://github.com/nslandolt/graphql-redis-subscription-demo), but for this demo we are keeping it simple
+and using just a default engine. We use the pubsub that was created in the [servers](#server-code) context just
+like we did in the [mutation](#mutation-code) above, but this time we are accessing the `asyncIterator` function.
+We pass the `asyncIterator` an ID assigned by the user which if any data is pushed to this pubsub use the `publish`
+method it will pass that data directly to the resolver and push the information to the user via web sockets.
 
 ### Server Code
 ```js
