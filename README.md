@@ -11,6 +11,7 @@ This package is supplementary to my GraphQL an Introduction presentation which c
   - [Mutation Code](#mutation-code)
   - [Subscription Code](#subscription-code)
   - [Server Code](#server-code)
+  - [Entrypoint Code](#entrypoint-code)
 
 ## Getting Started
 [Back to top](#graphql-an-introduction-demo)
@@ -176,12 +177,9 @@ const { subscription } = require('./subscription')
 const Server = (port, context = {}) => {
   const app = express()
 
-  app.get('/alive', (_req, res) => {
-    res.json({ ok: 'yes' })
-  })
-  app.get('/ready', (_req, res) => {
-    res.json({ ok: 'yes' })
-  })
+  /*
+    ...
+  */
 
   const server = new ApolloServer({
     schema: new GraphQLSchema({
@@ -210,5 +208,26 @@ const Server = (port, context = {}) => {
   )
   return httpServer
 }
+```
+[Server.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/server.js) is
+where we create a factory function that returns an http server that we can serve to the user and 
+make requests on. We first need to include all of the previously created graphql objects so that
+we can build our schema. I've decided to use [ApolloServer](https://www.apollographql.com/docs/apollo-server/)
+combined with [apollo-server-express](https://www.npmjs.com/package/apollo-server-express) to serve
+the GraphQL server. Our server
+
+### Entrypoint Code
+```js
+const PORT = 3000
+
+const { Server } = require('./src/server')
+
+;(async () => {
+  const pubsub = new PubSub()
+
+  Server(PORT, { pubsub }).listen(PORT, (err) => {
+    if (err) throw err
+  })
+})()
 ```
 Text Here
