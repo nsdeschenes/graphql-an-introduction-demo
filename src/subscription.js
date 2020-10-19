@@ -1,31 +1,21 @@
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLID,
-  GraphQLNonNull,
-} = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLList } = require('graphql')
 
 const subscription = new GraphQLObjectType({
   name: 'Subscription',
   description: 'Base Subscription',
   fields: () => ({
-    pushUserNames: {
-      type: GraphQLString,
-      description: 'Demo subscription example.',
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: 'The ID of used by the mutation.',
-        },
+    allUsers: {
+      type: new GraphQLList(GraphQLString),
+      description: 'Push all users when a new one is added.',
+      resolve: async ({ userList }) => {
+        return userList
       },
-      resolve: async ({ name }) => {
-        return name
-      },
-      subscribe: (_, { id }, { pubsub }) => pubsub.asyncIterator(id),
+      subscribe: (_source, _args, { pubsub, PUBSUB_STRING }) =>
+        pubsub.asyncIterator(PUBSUB_STRING),
     },
   }),
 })
 
 module.exports = {
-    subscription,
+  subscription,
 }

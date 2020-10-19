@@ -1,14 +1,14 @@
-const { GraphQLObjectType, GraphQLString } = require('graphql')
+const { GraphQLObjectType, GraphQLInt } = require('graphql')
 
 const query = new GraphQLObjectType({
   name: 'Query',
   description: 'Base Query Object',
   fields: () => ({
-    hello: {
-      type: GraphQLString,
-      description: 'Hello World!',
-      resolve: async () => {
-        return 'World!'
+    userCount: {
+      type: GraphQLInt,
+      description: 'The current amount of users in the list.',
+      resolve: async (_source, _args, { userList }) => {
+        return userList.length
       },
     },
   }),
