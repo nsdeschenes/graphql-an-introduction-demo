@@ -66,6 +66,7 @@ const query = new GraphQLObjectType({
     userCount: {
       type: GraphQLInt,
       description: 'The current amount of users in the list.',
+                    /* source   args    context  */
       resolve: async (_source, _args, { userList }) => {
         return userList.length
       },
@@ -73,8 +74,10 @@ const query = new GraphQLObjectType({
   }),
 })
 ```
-[query.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/query.js)
-
+In [query.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/query.js) 
+we create a very simple query that best represents the purposes of queries which is allowing the
+user to get the current state. We do this here by returning the current amount of users that are
+stored in the user list.
 
 ### Mutation Code
 ```js
@@ -93,9 +96,9 @@ const mutation = new GraphQLObjectType({
         },
       },
       resolve: async (
-        _source,
-        { name },
-        { pubsub, PUBSUB_STRING, userList },
+        _source,  // source
+        { name }, // args
+        { pubsub, PUBSUB_STRING, userList }, // context
       ) => {
         userList.push(name)
         pubsub.publish(PUBSUB_STRING, { userList })
@@ -105,8 +108,10 @@ const mutation = new GraphQLObjectType({
   }),
 })
 ```
-[mutation.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/mutation.js)
-
+In [mutation.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/mutation.js)
+we create a mutation that allows us to change the state of the server by adding a new user to the list,
+we then return a string informing the user that the user was added to the list. We also push the updated 
+list to the subscription, which will be covered below. 
 
 ### Subscription Code
 ```js
@@ -120,15 +125,17 @@ const subscription = new GraphQLObjectType({
       description: 'Push all users when a new one is added.',
       resolve: async ({ userList }) => {
         return userList
-      },
+      },         /* source   args         context        */
       subscribe: (_source, _args, { pubsub, PUBSUB_STRING }) =>
         pubsub.asyncIterator(PUBSUB_STRING),
     },
   }),
 })
 ```
-[subscription.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/subscription.js)
-
+In [subscription.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/subscription.js)
+we use an `asyncIterator` to setup the subscription to listen on a certain channel defined in the 
+[entry-point](#entrypoint-code). Whenever a mutation is ran it pushes the updated list to any user
+listening to the subscription.
 
 ### Server Code
 ```js
@@ -167,8 +174,13 @@ const Server = (port, context = {}) => {
   return httpServer
 }
 ```
-[server.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/server.js)
-
+We create a factory function in [server.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/server.js)
+that we then use in the entry-point below. We first have to bring in the root objects that we created previously
+to build our schema. The factory function takes in a port, and the context that gets passed in from the entry-point.
+Having the context field as an anonymous function allows it to be re-created upon each request, this allows us to
+gather the request and response express objects that we could use. We have to apply the middleware to the server
+which allows us to serve our `ApolloServer`, to add WebSockets for the subscriptions we need to create a server
+on the express app, we then install the required subscription handlers and return the corresponding httpServer. 
 
 ### Entrypoint Code
 ```js
@@ -186,4 +198,7 @@ const { Server } = require('./src/server')
   })
 })()
 ```
-[index.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/index.js)
+[index.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/index.js) is
+the entry point in our application. We define our constants used through out this demo,
+and pass them into the context for use through out the server. We use the factory function
+return value of the server to setup the server and listen on the specified port.
