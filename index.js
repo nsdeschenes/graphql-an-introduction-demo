@@ -2,10 +2,7 @@ const { PubSub } = require('apollo-server')
 
 const PORT = 3000
 const PUBSUB_STRING = 'allUsersPubSub'
-const userList = [
-  'John',
-  'Jane',
-]
+const userList = ['John', 'Jane']
 
 const { Server } = require('./src/server')
 
