@@ -1,5 +1,5 @@
 # GraphQL an Introduction Demo
-This package is supplementary to my GraphQL an Introduction presentation which can also be found in its own repo [here](https://github.com/nslandolt/graphql-an-introduction).
+This package is supplementary to my GraphQL an Introduction presentation which can be found [here](https://nslandolt.github.io/graphql-an-introduction/).
 
 - [Getting Started](#getting-started)
 - [Running Queries/Mutations/Subscriptions](#running-queries/mutations/subscriptions)
