@@ -6,9 +6,9 @@ const query = new GraphQLObjectType({
   fields: () => ({
     userCount: {
       type: GraphQLInt,
-      description: 'The current amount of users in the list.',
-      resolve: async (_source, _args, { userList }) => {
-        return userList.length
+      description: 'The current amount of users in the mailing list.',
+      resolve: async (_source, _args, { mailingList }) => {
+        return mailingList.length
       },
     },
   }),

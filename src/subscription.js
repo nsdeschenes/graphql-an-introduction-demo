@@ -1,14 +1,15 @@
-const { GraphQLObjectType, GraphQLString, GraphQLList } = require('graphql')
+const { GraphQLObjectType, GraphQLList } = require('graphql')
+const { Email } = require('./scalar')
 
 const subscription = new GraphQLObjectType({
   name: 'Subscription',
   description: 'Base Subscription',
   fields: () => ({
     allUsers: {
-      type: new GraphQLList(GraphQLString),
+      type: new GraphQLList(Email),
       description: 'Push all users when a new one is added.',
-      resolve: async ({ userList }) => {
-        return userList
+      resolve: async ({ mailingList }) => {
+        return mailingList
       },
       subscribe: (_source, _args, { pubsub, PUBSUB_STRING }) =>
         pubsub.asyncIterator(PUBSUB_STRING),

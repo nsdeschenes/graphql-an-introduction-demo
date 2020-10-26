@@ -1,26 +1,27 @@
 const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = require('graphql')
+const { Email } = require('./scalar')
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   description: 'Base Mutation Object',
   fields: () => ({
-    addUser: {
+    addEmail: {
       type: GraphQLString,
-      description: 'Add new user to a list.',
+      description: 'Add new user to a mailing list.',
       args: {
-        name: {
-          type: new GraphQLNonNull(GraphQLString),
-          description: "User's name.",
+        email: {
+          type: new GraphQLNonNull(Email),
+          description: "User's email.",
         },
       },
       resolve: async (
         _source,
-        { name },
-        { pubsub, PUBSUB_STRING, userList },
+        { email },
+        { pubsub, PUBSUB_STRING, mailingList },
       ) => {
-        userList.push(name)
-        pubsub.publish(PUBSUB_STRING, { userList })
-        return `User: ${name} was successfully added.`
+        mailingList.push(email)
+        pubsub.publish(PUBSUB_STRING, { mailingList })
+        return `User: ${email} was successfully added to mailing list.`
       },
     },
   }),
