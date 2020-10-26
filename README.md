@@ -1,5 +1,5 @@
 # GraphQL an Introduction Demo
-This package is supplementary to my GraphQL an Introduction presentation which can be found [here](https://nslandolt.github.io/graphql-an-introduction/).
+This package is supplementary to my GraphQL an Introduction presentation which can be found [here](https://nsdeschenes.github.io/graphql-an-introduction/).
 
 - [Getting Started](#getting-started)
 - [Running Queries/Mutations/Subscriptions](#running-queries/mutations/subscriptions)
@@ -74,7 +74,7 @@ const query = new GraphQLObjectType({
   }),
 })
 ```
-In [query.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/query.js) 
+In [query.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/src/query.js) 
 we create a very simple query that best represents the purposes of queries which is allowing the
 user to get the current state. We do this here by returning the current amount of users that are
 stored in the mailing list.
@@ -108,7 +108,7 @@ const mutation = new GraphQLObjectType({
   }),
 })
 ```
-In [mutation.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/mutation.js)
+In [mutation.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/src/mutation.js)
 we create a mutation that allows us to change the state of the server by adding a new email to the list,
 we then return a string informing the user that the email was added to the list. We also push the updated 
 mailing list to the subscription, which will be covered below. 
@@ -132,7 +132,7 @@ const subscription = new GraphQLObjectType({
   }),
 })
 ```
-In [subscription.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/subscription.js)
+In [subscription.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/src/subscription.js)
 we use an `asyncIterator` to setup the subscription to listen on a certain channel defined in the 
 [entry-point](#entrypoint-code). Whenever a mutation is ran it pushes the updated mailing list to any 
 user currently listening to the subscription.
@@ -169,7 +169,7 @@ module.exports.Email = new GraphQLScalarType({
   },
 })
 ```
-In [scalar.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/scalar.js)
+In [scalar.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/src/scalar.js)
 we can define a custom scalar type that we can use throughout our API. In this demo we are creating 
 a mailing list so we need a type that enforces that we can only input emails. Creating this custom
 email scalar allows us to reject any bad or malicious inputs before they reach the business logic.
@@ -211,7 +211,7 @@ const Server = (port, context = {}) => {
   return httpServer
 }
 ```
-We create a factory function in [server.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/server.js)
+We create a factory function in [server.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/src/server.js)
 that we then use in the entry-point below. We first have to bring in the root objects that we created previously
 to build our schema. The factory function takes in a port, and the context that gets passed in from the entry-point.
 Having the context field as an anonymous function allows it to be re-created upon each request, this allows us to
@@ -235,7 +235,7 @@ const { Server } = require('./src/server')
   })
 })()
 ```
-[index.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/index.js) is
+[index.js](https://github.com/nsdeschenes/graphql-an-introduction-demo/blob/master/index.js) is
 the entry point in our application. We define our constants used through out this demo,
 and pass them into the context for use through out the server. We use the factory function
 return value of the server to setup the server and listen on the specified port.
