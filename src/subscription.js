@@ -5,7 +5,7 @@ const subscription = new GraphQLObjectType({
   name: 'Subscription',
   description: 'Base Subscription',
   fields: () => ({
-    allUsers: {
+    mailingList: {
       type: new GraphQLList(Email),
       description: 'Push all users when a new one is added.',
       resolve: async ({ mailingList }) => {

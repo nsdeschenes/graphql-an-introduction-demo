@@ -120,7 +120,7 @@ const subscription = new GraphQLObjectType({
   name: 'Subscription',
   description: 'Base Subscription',
   fields: () => ({
-    allEmails: {
+    mailingList: {
       type: new GraphQLList(Email),
       description: 'Push all emails in mailing list, when a new one is added.',
       resolve: async ({ mailingList }) => {
@@ -134,8 +134,8 @@ const subscription = new GraphQLObjectType({
 ```
 In [subscription.js](https://github.com/nslandolt/graphql-an-introduction-demo/blob/master/src/subscription.js)
 we use an `asyncIterator` to setup the subscription to listen on a certain channel defined in the 
-[entry-point](#entrypoint-code). Whenever a mutation is ran it pushes the updated list to any user
-listening to the subscription.
+[entry-point](#entrypoint-code). Whenever a mutation is ran it pushes the updated mailing list to any 
+user currently listening to the subscription.
 
 ### Scalar Code
 ```js
