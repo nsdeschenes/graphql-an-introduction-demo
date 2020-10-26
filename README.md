@@ -42,7 +42,7 @@ Mutations are used to modify the state. This mutations allows
 a user to add a new email to the mailing list that is stored on the server.
 ```graphql
 mutation {
-  addEmail (name: "mike@email.ca")
+  addEmail (email: "mike@email.ca")
 }
 ```
 ### Run a Subscription
