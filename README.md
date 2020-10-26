@@ -39,19 +39,19 @@ query {
 ```
 ### Run a Mutation
 Mutations are used to modify the state. This mutations allows
-a user to add a new user to the list that is stored on the server.
+a user to add a new email to the mailing list that is stored on the server.
 ```graphql
 mutation {
-  addUser (name: "Mike")
+  addEmail (name: "mike@email.ca")
 }
 ```
 ### Run a Subscription
 In GraphQL subscriptions are used to watch the state of the server.
-For this demo, whenever a new user is added to the list, the list 
+For this demo, whenever a new email is added to the list, the mailing list 
 is then pushed to the subscription and back to the user running it.
 ```graphql
 subscription {
-  allUsers
+  mailingList
 }
 ```
 - - -
